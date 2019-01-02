@@ -19,6 +19,7 @@ type pageInfo struct {
 }
 
 type postNode struct {
+	ShortCode    string `json:"shortcode"`
 	ImageURL     string `json:"display_url"`
 	ThumbnailURL string `json:"thumbnail_src"`
 	IsVideo      bool   `json:"is_video"`
@@ -81,6 +82,7 @@ type postResponse struct {
 	ThumbnailURL string `json:"thumbnail_url"`
 	Likes        int    `json:"likes"`
 	Comments     int    `json:"comments"`
+	Link         string `json:"link"`
 }
 
 type instaResponse struct {
@@ -100,12 +102,15 @@ func appendPost(posts []postResponse, edge postEdge) []postResponse {
 		caption = edge.Node.CaptionEdges.Edges[0].Node.Caption
 	}
 
+	link := fmt.Sprintf("https://instagram.com/p/%s", edge.Node.ShortCode)
+
 	post := postResponse{
 		Caption:      caption,
 		ImageURL:     edge.Node.ImageURL,
 		ThumbnailURL: edge.Node.ThumbnailURL,
 		Likes:        edge.Node.LikesEdge.Count,
 		Comments:     edge.Node.CommentsEdge.Count,
+		Link:         link,
 	}
 
 	return append(posts, post)
