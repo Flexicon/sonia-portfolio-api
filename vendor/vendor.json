@@ -117,6 +117,12 @@
 			"revisionTime": "2018-12-25T16:41:17Z"
 		},
 		{
+			"checksumSHA1": "I+g5iffd0bNDiI8swxzsHiJxBz0=",
+			"path": "github.com/joho/godotenv",
+			"revision": "69ed1d913aa885da390dd6de9febf063d101b097",
+			"revisionTime": "2018-11-20T19:47:48Z"
+		},
+		{
 			"checksumSHA1": "zcZmyg+doHyRExMIqC29AIuiLrk=",
 			"path": "github.com/kennygrant/sanitize",
 			"revision": "06ec0d0dbcd497d01e5189b16f5263f712e61a8e",

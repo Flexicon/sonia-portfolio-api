@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 // HomeResponse stores information about the api
@@ -29,9 +31,13 @@ func commonMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
-	port := ":8080"
-	router := mux.NewRouter()
+	godotenv.Load() // Load from .env file if it's there
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "80"
+	}
 
+	router := mux.NewRouter()
 	router.Use(commonMiddleware)
 
 	router.HandleFunc("/", homeHandler)
@@ -41,6 +47,7 @@ func main() {
 	headersOk := handlers.AllowedHeaders([]string{})
 	methodsOk := handlers.AllowedMethods([]string{"GET"})
 
-	fmt.Printf("Listening on port '%s'\n", port)
-	log.Fatal(http.ListenAndServe(port, handlers.CORS(originsOk, headersOk, methodsOk)(router)))
+	addr := fmt.Sprintf(":%s", port)
+	fmt.Printf("Listening on '%s'\n", addr)
+	log.Fatal(http.ListenAndServe(addr, handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
