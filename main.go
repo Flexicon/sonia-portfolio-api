@@ -10,19 +10,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type homeResponse struct {
+// HomeResponse stores information about the api
+type HomeResponse struct {
 	Alive     bool     `json:"alive"`
 	Resources []string `json:"resources"`
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(homeResponse{Alive: true, Resources: []string{"insta"}})
-}
-
-func instaHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{"msg": "Insta!"})
+	json.NewEncoder(w).Encode(HomeResponse{Alive: true, Resources: []string{"insta"}})
 }
 
 func commonMiddleware(next http.Handler) http.Handler {
@@ -39,7 +35,7 @@ func main() {
 	router.Use(commonMiddleware)
 
 	router.HandleFunc("/", homeHandler)
-	router.HandleFunc("/insta", instaHandler)
+	router.HandleFunc("/insta", InstaHandler)
 
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	headersOk := handlers.AllowedHeaders([]string{})
